@@ -24,7 +24,7 @@ mutable struct Sensor{T<:Number}
     const name::String
     const unit::String
 
-    function Sensor(value::T, name::String, unit::String) where T<:Number
+    function Sensor(value::T, name::String, unit::String) where {T<:Number}
         normalized_name = titlecase(strip(name))
         normalized_unit = titlecase(strip(unit))
 
@@ -47,7 +47,7 @@ struct Vehicle{T<:Number, S<:Sensor}
     orientation::Vector{T}
     sensors::Dict{String, S}
 
-    function Vehicle(name::String, battery::Battery, position::Vector{T}, orientation::Vector{T}, sensors::Dict{String, S}) where T<:Number where S<:Sensor
+    function Vehicle(name::String, battery::Battery, position::Vector{T}, orientation::Vector{T}, sensors::Dict{String, S}) where {T<:Number} where {S<:Sensor}
         normalized_name = titlecase(strip(name))
 
         if isempty(normalized_name)
@@ -70,7 +70,7 @@ struct Vehicle{T<:Number, S<:Sensor}
     end
 end
 
-function Vehicle(battery::Battery, position::Vector{T}, orientation::Vector{T}, sensors::Dict{String, S}) where T<:Number where S<:Sensor
+function Vehicle(battery::Battery, position::Vector{T}, orientation::Vector{T}, sensors::Dict{String, S}) where {T<:Number} where {S<:Sensor}
     return Vehicle(
         "Anonymous_$(rand(1000000:10000000))",
         battery,
@@ -80,7 +80,7 @@ function Vehicle(battery::Battery, position::Vector{T}, orientation::Vector{T}, 
     )
 end
 
-function Vehicle(name::String, battery::Battery, sensors::Dict{String, S}) where S<:Sensor
+function Vehicle(name::String, battery::Battery, sensors::Dict{String, S}) where {S<:Sensor}
     return Vehicle(
         name,
         battery,
@@ -90,7 +90,7 @@ function Vehicle(name::String, battery::Battery, sensors::Dict{String, S}) where
     )
 end
 
-function Vehicle(battery::Battery, sensors::Dict{String, S}) where S<:Sensor
+function Vehicle(battery::Battery, sensors::Dict{String, S}) where {S<:Sensor}
     return Vehicle(
         "Anonymous_$(rand(1000000:10000000))",
         battery,
